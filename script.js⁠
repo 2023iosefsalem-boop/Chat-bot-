@@ -1,0 +1,83 @@
+let arbolData = {};
+let datosUsuario = {};
+let nodoActual = "inicio";
+
+// Cargar el archivo arbol_decision.json
+fetch('arbol_decision.json')
+    .then(response => {
+        if (!response.ok) {
+            throw new Error("No se pudo cargar el archivo JSON. Asegúrate de usar Live Server.");
+        }
+        return response.json();
+    })
+    .then(data => {
+        arbolData = data;
+        mostrarNodo(nodoActual);
+    })
+    .catch(error => {
+        console.error(error);
+        const chatBox = document.getElementById("chat-box");
+        chatBox.innerHTML = `<div class="message bot-message" style="color: red;">⚠️ Error: El bot necesita ejecutarse con Live Server para leer arbol_decision.json correctamente (no con doble clic directo).</div>`;
+    });
+
+function mostrarNodo(nombreNodo) {
+    nodoActual = nombreNodo;
+    const nodo = arbolData[nombreNodo];
+    if (!nodo) return;
+
+    let textoBot = reemplazarVariables(nodo.texto);
+    agregarMensaje(textoBot, "bot-message");
+
+    const inputContainer = document.getElementById("input-container");
+    const buttonsContainer = document.getElementById("buttons-container");
+    buttonsContainer.innerHTML = "";
+
+    if (nodo.input) {
+        inputContainer.classList.remove("hidden");
+        const btnEnviar = document.getElementById("btn-enviar");
+        const nuevoBtn = btnEnviar.cloneNode(true);
+        btnEnviar.parentNode.replaceChild(nuevoBtn, btnEnviar);
+
+        document.getElementById("btn-enviar").addEventListener("click", () => {
+            const valorInput = document.getElementById("user-input").value.trim();
+            if (valorInput !== "") {
+                datosUsuario[nodo.variable] = valorInput;
+                agregarMensaje(valorInput, "user-message");
+                document.getElementById("user-input").value = "";
+                inputContainer.classList.add("hidden");
+                
+                const siguienteNodo = nodo.opciones[0].siguiente;
+                mostrarNodo(siguienteNodo);
+            }
+        });
+    } else {
+        inputContainer.classList.add("hidden");
+        nodo.opciones.forEach(opcion => {
+            const btn = document.createElement("button");
+            btn.className = "chat-btn";
+            btn.innerText = opcion.texto;
+            btn.addEventListener("click", () => {
+                agregarMensaje(opcion.texto, "user-message");
+                mostrarNodo(opcion.siguiente);
+            });
+            buttonsContainer.appendChild(btn);
+        });
+    }
+}
+
+function reemplazarVariables(texto) {
+    let resultado = texto;
+    for (let key in datosUsuario) {
+        resultado = resultado.replace(new RegExp(`{${key}}`, 'g'), datosUsuario[key]);
+    }
+    return resultado;
+}
+
+function agregarMensaje(texto, clase) {
+    const chatBox = document.getElementById("chat-box");
+    const div = document.createElement("div");
+    div.className = `message ${clase}`;
+    div.innerText = texto;
+    chatBox.appendChild(div);
+    chatBox.scrollTop = chatBox.scrollHeight;
+}
