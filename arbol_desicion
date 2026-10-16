@@ -1,0 +1,42 @@
+{
+  "inicio": {
+    "texto": "¡Hola! Bienvenido al asistente escolar. ¿Cómo te llamas?",
+    "input": true,
+    "variable": "nombre",
+    "opciones": [
+      { "texto": "Continuar", "siguiente": "menu_principal" }
+    ]
+  },
+  "menu_principal": {
+    "texto": "Hola {nombre}, ¿en qué te puedo ayudar hoy?",
+    "input": false,
+    "opciones": [
+      { "texto": "1. Horarios de Exámenes", "siguiente": "examenes" },
+      { "texto": "2. Talleres Extracurriculares", "siguiente": "talleres" },
+      { "texto": "3. Terminar / Reiniciar", "siguiente": "fin" }
+    ]
+  },
+  "examenes": {
+    "texto": "Los exámenes finales serán del 15 al 25 de noviembre. ¿Necesitas algo más, {nombre}?",
+    "input": false,
+    "opciones": [
+      { "texto": "Volver al menú principal", "siguiente": "menu_principal" },
+      { "texto": "Terminar conversación", "siguiente": "fin" }
+    ]
+  },
+  "talleres": {
+    "texto": "Tenemos talleres de Programación, Teatro y Robótica los martes y jueves por la tarde.",
+    "input": false,
+    "opciones": [
+      { "texto": "Volver al menú principal", "siguiente": "menu_principal" },
+      { "texto": "Terminar conversación", "siguiente": "fin" }
+    ]
+  },
+  "fin": {
+    "texto": "¡Gracias por usar el asistente, {nombre}! Hasta luego.",
+    "input": false,
+    "opciones": [
+      { "texto": "Reiniciar conversación", "siguiente": "inicio" }
+    ]
+  }
+}
