@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notas y Conversor</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="main-container">
+        <h1>Mi Proyecto: Notas y Conversor</h1>
+        
+        <div class="sections-wrapper">
+            <!-- Sección de Notas Adhesivas -->
+            <section class="card">
+                <h2>Notas Adhesivas</h2>
+                <input type="text" id="nota-input" placeholder="Escribe una nueva nota...">
+                <button id="btn-agregar-nota">Agregar Nota</button>
+                <div id="notas-container" class="notes-grid"></div>
+            </section>
+
+            <!-- Sección de Conversor -->
+            <section class="card">
+                <h2>Conversor (Metros a Pies)</h2>
+                <input type="number" id="valor-metros" placeholder="Ingresa metros...">
+                <button id="btn-convertir">Convertir</button>
+                <p id="resultado-conversor"></p>
+            </section>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
